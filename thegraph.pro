@@ -36,3 +36,6 @@ RC_ICONS = images/network.ico
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/mainwindows/thegraph
 INSTALLS += target
+
+DISTFILES += \
+    .gitignore

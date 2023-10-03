@@ -7,10 +7,7 @@ extern "C" {
 #include "rbpfilter.h"
 
 QString GENE_LIST = "data/gene_attribute_edges.txt";
-QString TRANS_FACTORS[4] = {"data/AURAlight_trans-factors_1.txt",
-                            "data/AURAlight_trans-factors_2.txt",
-                            "data/AURAlight_trans-factors_3.txt",
-                            "data/AURAlight_trans-factors_4.txt"};
+QString TRANS_FACTORS = "data/AURAlight_trans-factors.txt";
 
 RbpFilter::RbpFilter(QWidget *parent) : QDialog(parent)
 {
@@ -142,22 +139,21 @@ struct EdgeList *RbpFilter::filterByCell(QString cell, int min_co_reg)
 
 struct EdgeList *RbpFilter::filterbyGenes(QStringList genes, int min_co_regulated)
 {
-    QFile file[4];
+    QFile file;
 
     QMap<QString, QStringList> rbp_genes_map;
 
-    for (int i = 0; i < 4; ++i) {
-    file[i].setFileName(TRANS_FACTORS[i]);
-    if (!file[i].open(QFile::ReadOnly | QFile::Text)) {
+    file.setFileName(TRANS_FACTORS);
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
         QMessageBox::warning(nullptr, tr("Application"),
                              tr("Cannot read file %1:\n%2.")
-                                 .arg(QDir::toNativeSeparators(TRANS_FACTORS[i]), file[4].errorString()));
+                                 .arg(QDir::toNativeSeparators(TRANS_FACTORS), file.errorString()));
         return nullptr;
     }
 
     QString line;
-    while (!file[4].atEnd()) {
-        line = file[4].readLine();
+    while (!file.atEnd()) {
+        line = file.readLine();
         QStringList args = line.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
         QString tf = args.at(0);
         QString gene = args.at(1);
@@ -165,7 +161,6 @@ struct EdgeList *RbpFilter::filterbyGenes(QStringList genes, int min_co_regulate
         /* Create a map of trans factors and their targeted genes */
         if (genes.contains(gene) && !rbp_genes_map[tf].contains(gene))
                 rbp_genes_map[tf].append(gene);
-    }
     }
 
     struct EdgeList *result = NULL;

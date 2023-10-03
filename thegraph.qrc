@@ -14,9 +14,6 @@
         <file>images/network.ico</file>
         <file>data/AURAlight_cis-elements.txt</file>
         <file>data/gene_attribute_edges.txt</file>
-        <file>data/AURAlight_trans-factors_1.txt</file>
-        <file>data/AURAlight_trans-factors_2.txt</file>
-        <file>data/AURAlight_trans-factors_3.txt</file>
-        <file>data/AURAlight_trans-factors_4.txt</file>
+        <file>data/AURAlight_trans-factors.txt</file>
     </qresource>
 </RCC>
